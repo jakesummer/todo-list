@@ -14,6 +14,10 @@ export default class AppManager {
         return newProject.id;
     }
 
+    getProject(projectID) {
+        return this.#projects.find(p => p.id === projectID);
+    }
+
     createNewTodo(todoTitle, description, dueDate, priority, project) {
         const newTodo = new Todo(todoTitle, description, dueDate, priority);
         project.todoList.push(newTodo);

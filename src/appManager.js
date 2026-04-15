@@ -14,13 +14,19 @@ export default class AppManager {
         return newProject.id;
     }
 
-    getProject(projectID) {
-        return this.#projects.find(p => p.id === projectID);
-    }
-
     createNewTodo(todoTitle, description, dueDate, priority, projectID) {
         const newTodo = new Todo(todoTitle, description, dueDate, priority);
         const project = this.getProject(projectID);
         project.todoList.push(newTodo);
+        return newTodo.id;
+    }
+    
+    getProject(projectID) {
+        return this.#projects.find(p => p.id === projectID);
+    }
+
+    getTodo(todoID, projectID) {
+        const todoProject = this.getProject(projectID);
+        return todoProject.todoList.find(todo => todo.id === todoID);
     }
 }

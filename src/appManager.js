@@ -29,4 +29,18 @@ export default class AppManager {
         const todoProject = this.getProject(projectID);
         return todoProject.todoList.find(todo => todo.id === todoID);
     }
+
+    editTodo(todoID, projectID, key, value) {
+        const todo = this.getTodo(todoID, projectID);
+        if (Object.hasOwn(todo, key)) {
+            todo[key] = value;
+        } else {
+            throw new TypeError(`${key} is not a valid key!`);
+        }
+    }
+
+    editProjectName(projectID, newName) {
+        const project = this.getProject(projectID);
+        project.projectName = newName;
+    }
 }

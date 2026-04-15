@@ -3,9 +3,14 @@ import Project from "./project.js";
 
 export default class AppManager {
     #projects = [];
+    #todos = new Map();
 
     get projects() {
         return Object.freeze([...this.#projects]);
+    }
+
+    get todos() {
+        return Object.freeze([...this.#todos])
     }
 
     createNewProject(projectName) {
@@ -15,23 +20,23 @@ export default class AppManager {
     }
 
     createNewTodo(todoTitle, description, dueDate, priority, projectID) {
-        const newTodo = new Todo(todoTitle, description, dueDate, priority);
+        const newTodo = new Todo(todoTitle, description, dueDate, priority, projectID);
         const project = this.getProject(projectID);
-        project.todoList.push(newTodo);
+        project.todoIDs.push(newTodo.id);
+        this.#todos.set(newTodo.id, newTodo);
         return newTodo.id;
     }
-    
+
     getProject(projectID) {
         return this.#projects.find(p => p.id === projectID);
     }
 
-    getTodo(todoID, projectID) {
-        const todoProject = this.getProject(projectID);
-        return todoProject.todoList.find(todo => todo.id === todoID);
+    getTodo(todoID) {
+        return this.#todos.get(todoID);
     }
 
-    editTodo(todoID, projectID, key, value) {
-        const todo = this.getTodo(todoID, projectID);
+    editTodo(todoID, key, value) {
+        const todo = this.getTodo(todoID);
         if (Object.hasOwn(todo, key)) {
             todo[key] = value;
         } else {
@@ -44,14 +49,22 @@ export default class AppManager {
         project.projectName = newName;
     }
 
-    removeTodo(todoID, projectID) {
-        const todoList = this.getProject(projectID).todoList;
-        const index = todoList.findIndex(element => element.id === todoID);
-        todoList.splice(index, 1);
+    removeTodo(todoID) {
+        const todo = this.getTodo(todoID);
+        const project = this.getProject(todo.projectID);
+        const index = project.todoIDs.findIndex(element => element.id === todoID);
+        project.todoIDs.splice(index, 1);
+        this.#todos.delete(todoID);
     }
 
     removeProject(projectID) {
         const index = this.#projects.findIndex(element => element.id === projectID)
         this.#projects.splice(index, 1);
+
+        for (const [key, value] of this.#todos) {
+            if (value.projectID === projectID) {
+                this.#todos.delete(key);
+            }
+        }
     }
 }

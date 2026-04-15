@@ -1,6 +1,6 @@
 export default class Project {
     #id = crypto.randomUUID();
-    #todoList = [];
+    #todoIDs = [];
     projectName;
 
     constructor(projectName) {
@@ -11,7 +11,7 @@ export default class Project {
         return this.#id;
     }
 
-    get todoList() {
-        return this.#todoList
+    get todoIDs() {
+        return this.#todoIDs;
     }
 }

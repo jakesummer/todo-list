@@ -8,6 +8,12 @@ export default class AppManager {
         return Object.freeze([...this.#projects]);
     }
 
+    createNewProject(projectName) {
+        const newProject = new Project(projectName);
+        this.#projects.push(newProject);
+        return newProject.id;
+    }
+
     createNewTodo(todoTitle, description, dueDate, priority, project) {
         const newTodo = new Todo(todoTitle, description, dueDate, priority);
         project.todoList.push(newTodo);

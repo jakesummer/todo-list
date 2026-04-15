@@ -43,4 +43,15 @@ export default class AppManager {
         const project = this.getProject(projectID);
         project.projectName = newName;
     }
+
+    removeTodo(todoID, projectID) {
+        const todoList = this.getProject(projectID).todoList;
+        const index = todoList.findIndex(element => element.id === todoID);
+        todoList.splice(index, 1);
+    }
+
+    removeProject(projectID) {
+        const index = this.#projects.findIndex(element => element.id === projectID)
+        this.#projects.splice(index, 1);
+    }
 }

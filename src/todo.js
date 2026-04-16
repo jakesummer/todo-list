@@ -5,6 +5,7 @@ export default class Todo {
     dueDate;
     priority;
     projectID;
+    isCompleted = false;
 
     constructor(todoTitle, description, dueDate, priority, projectID, id = null) {
         this.#id = id || crypto.randomUUID();
@@ -27,6 +28,7 @@ export default class Todo {
             dueDate: this.dueDate,
             priority: this.priority,
             projectID: this.projectID,
+            isCompleted: this.isCompleted
         }
     }
 }

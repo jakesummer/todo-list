@@ -89,7 +89,7 @@ export default class AppManager {
         const index = project.todoIDs.findIndex(element => element === todoID);
         project.todoIDs.splice(index, 1);
         this.#todos.delete(todoID);
-        project.remove(todoID);
+        storage.remove(todoID);
     }
 
     removeProject(projectID) {
@@ -107,7 +107,7 @@ export default class AppManager {
 
 const storage = function () {
     const save = (key, value) => {
-        key = JSON.stringify(key);
+        key = `todoList_${JSON.stringify(key)}`;
         value = JSON.stringify(value);
         try {
             localStorage.setItem(key, value);
@@ -118,16 +118,25 @@ const storage = function () {
     };
 
     const remove = (key) => {
-        localStorage.removeItem(key);
+        localStorage.removeItem(`todoList_${JSON.stringify(key)}`);
     };
 
     const load = () => {
         const data = [];
         for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
+            let key = localStorage.key(i);
             const value = localStorage.getItem(key);
-            if (data.push(JSON.parse(value)));
-            else continue;
+            
+            if (!key.startsWith("todoList_")) continue;
+
+            key = key.replace("/^todoList_/", "");
+
+            try {
+                const parsedData = JSON.parse(value);
+                data.push(parsedData);
+            } catch {
+                continue;
+            }
         }
         return data;
     };

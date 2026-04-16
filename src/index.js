@@ -9,6 +9,7 @@ const displayManager = DisplayManager;
 
 function initApp() {
     // Dom Elements
+    const contentContainer = document.getElementById("content");
     const newTodoBtn = document.getElementById("new-todo-btn");
     const newTodoForm = document.getElementById("new-todo-form");
     const todoTitleInput = document.getElementById("new-title-input");
@@ -29,15 +30,26 @@ function initApp() {
         appManager.createNewTodo(todoTitleInput.value, todoDescInput.value, todoDueDateInput.value, newTodoPriority, newTodoProject);
         displayManager.displayTodos(appManager.projects.get(newTodoProject), appManager.todos);
         displayManager.closeNewTodoModal();
-    })
+    });
 
     cancelTodoBtn.addEventListener("click", () => {
         displayManager.closeNewTodoModal();
-    })
+    });
 
     newTodoBtn.addEventListener("click", () => newTodoForm.reset());
 
-    closeTodoDetailsBtn.addEventListener("click", () => todoDetailsModal.close())
+    closeTodoDetailsBtn.addEventListener("click", () => todoDetailsModal.close());
+
+    // Event Listener for pressing the delete button on a todo card
+    contentContainer.addEventListener("click", (e) => {
+        // Check if clicked item is the button to delete a todo
+        const deleteBtn = e.target.closest(".delete-todo-btn")
+        if (deleteBtn) {
+            const todoID = deleteBtn.dataset.todoId;
+            appManager.removeTodo(todoID);
+            displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
+        }
+    });
 }
 
 displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);

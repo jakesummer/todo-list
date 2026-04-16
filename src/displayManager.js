@@ -1,5 +1,9 @@
 export default class DisplayManager {
+    // DOM Elements
     static #contentContainer = document.getElementById("content");
+    static #newTodoModal = document.getElementById("new-todo-modal");
+    static #newTodoForm = document.getElementById("new-todo-form");
+    static #newTodoProjectDropdown = document.getElementById("new-todo-project-dropdown");
 
     static displayTodos (project, todoList) {
         const projectTodoIDs = project.todoIDs;
@@ -41,5 +45,21 @@ export default class DisplayManager {
         todoCard.appendChild(priority);
 
         return todoCard;
+    }
+
+    static openNewTodoModal(projectList) {
+        projectList.forEach(project => {
+            const option = document.createElement("option");
+            option.value = project.id;
+            option.text = project.projectName;
+            this.#newTodoProjectDropdown.appendChild(option);
+        });
+
+        DisplayManager.#newTodoModal.showModal();
+    }
+
+    static closeNewTodoModal() {
+        DisplayManager.#newTodoModal.close();
+        DisplayManager.#newTodoForm.reset();
     }
 }

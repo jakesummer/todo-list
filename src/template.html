@@ -13,5 +13,49 @@
 
     <div id="content">
     </div>
+
+    <dialog id="new-todo-modal">
+        <form id="new-todo-form">
+            <fieldset>
+                <legend>Create New Todo</legend>
+
+                <div class="label-input-group">
+                    <label for="new-title-input">Todo Title</label>
+                    <input type="text" id="new-title-input" required>
+                </div>
+                <div class="label-input-group">
+                    <label for="new-description-input">Todo Description</label>
+                    <textarea id="new-description-input" cols="40" rows="10"></textarea>
+                </div>
+                <div class="label-input-group">
+                    <label for="new-due-date-input">Due Date</label>
+                    <input type="datetime-local" id="new-due-date-input" required>
+                </div>
+                <div class="label-input-group">
+                    <label for="new-priority-input">Priority</label>
+                    <div class="priority-input-grid">
+                        <div class="priority-input-label-group">
+                            <input type="radio" name="priority-input" id="low-priority-input" value="low" required>
+                            <label for="low-priority-input">Low</label>
+                        </div>
+                        <div class="priority-input-label-group">
+                            <input type="radio" name="priority-input" id="medium-priority-input" value="medium">
+                            <label for="medium-priority-input">Medium</label>
+                        </div>
+                        <div class="priority-input-label-group">
+                            <input type="radio" name="priority-input" id="high-priority-input" value="high">
+                            <label for="high-priority-input">High</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="label-input-group">
+                    <label for="new-todo-project-dropdown">Project</label>
+                    <select id="new-todo-project-dropdown" required></select>
+                </div>
+
+                <button id="create-todo-btn">Create Todo</button>
+            </fieldset>
+        </form>
+    </dialog>
 </body>
 </html>

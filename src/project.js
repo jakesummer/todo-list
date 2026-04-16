@@ -1,9 +1,10 @@
 export default class Project {
-    #id = crypto.randomUUID();
+    #id
     #todoIDs = [];
     projectName;
 
-    constructor(projectName) {
+    constructor(projectName, id = null) {
+        this.#id = id || crypto.randomUUID();;
         this.projectName = projectName;
     }
 
@@ -13,5 +14,13 @@ export default class Project {
 
     get todoIDs() {
         return this.#todoIDs;
+    }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            todoIDs: this.todoIDs,
+            projectName: this.projectName,
+        }
     }
 }

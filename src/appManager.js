@@ -14,6 +14,11 @@ export default class AppManager {
                 this.createNewProject(obj.projectName, obj.id, true);
             } 
         }
+
+        // Create default project if it's not already created
+        if (this.#projects.size === 0) {
+            this.createNewProject("General", "default-project-id");
+        }
         
         // Create all todos
         for (const obj of data) {

@@ -5,6 +5,7 @@ import DisplayManager from "./displayManager.js";
 import "./style.css"
 
 const appManager = new AppManager();
+const displayManager = DisplayManager;
 
 function initApp() {
     // Dom Elements
@@ -16,17 +17,17 @@ function initApp() {
     const todoProjectDropdown = document.getElementById("new-todo-project-dropdown");
 
     // Event Listeners
-    newTodoBtn.addEventListener("click", () => DisplayManager.openNewTodoModal(appManager.projects));
+    newTodoBtn.addEventListener("click", () => displayManager.openNewTodoModal(appManager.projects));
 
     newTodoForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const newTodoPriority = document.querySelector('[name="priority-input"]:checked').value;
         const newTodoProject = todoProjectDropdown.value;
         appManager.createNewTodo(todoTitleInput.value, todoDescInput.value, todoDueDateInput.value, newTodoPriority, newTodoProject);
-        DisplayManager.displayTodos(appManager.projects.get(newTodoProject), appManager.todos);
-        DisplayManager.closeNewTodoModal();
+        displayManager.displayTodos(appManager.projects.get(newTodoProject), appManager.todos);
+        displayManager.closeNewTodoModal();
     })
 }
 
-DisplayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
+displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
 initApp();

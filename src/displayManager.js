@@ -1,20 +1,20 @@
-export default class DisplayManager {
+export default (function() {
     // DOM Elements
-    static #contentContainer = document.getElementById("content");
-    static #newTodoModal = document.getElementById("new-todo-modal");
-    static #newTodoForm = document.getElementById("new-todo-form");
-    static #newTodoProjectDropdown = document.getElementById("new-todo-project-dropdown");
+    const _contentContainer = document.getElementById("content");
+    const _newTodoModal = document.getElementById("new-todo-modal");
+    const _newTodoForm = document.getElementById("new-todo-form");
+    const _newTodoProjectDropdown = document.getElementById("new-todo-project-dropdown");
 
-    static displayTodos (project, todoList) {
+    const displayTodos = (project, todoList) => {
         const projectTodoIDs = project.todoIDs;
         for (const id of projectTodoIDs) {
             const todo = todoList.get(id);
-            const newTodoCard = DisplayManager.#createTodoCard(todo);
-            DisplayManager.#contentContainer.appendChild(newTodoCard);
+            const newTodoCard = _createTodoCard(todo);
+            _contentContainer.appendChild(newTodoCard);
         }
-    }
+    };
 
-    static #createTodoCard(todo) {
+    const _createTodoCard = (todo) => {
         const todoCard = document.createElement("label");
         todoCard.for = todo.id;
         todoCard.classList.add("todo-card");
@@ -45,21 +45,23 @@ export default class DisplayManager {
         todoCard.appendChild(priority);
 
         return todoCard;
-    }
+    };
 
-    static openNewTodoModal(projectList) {
+    const openNewTodoModal = (projectList) => {
         projectList.forEach(project => {
             const option = document.createElement("option");
             option.value = project.id;
             option.text = project.projectName;
-            this.#newTodoProjectDropdown.appendChild(option);
+            _newTodoProjectDropdown.appendChild(option);
         });
 
-        DisplayManager.#newTodoModal.showModal();
-    }
+        _newTodoModal.showModal();
+    };
 
-    static closeNewTodoModal() {
-        DisplayManager.#newTodoModal.close();
-        DisplayManager.#newTodoForm.reset();
-    }
-}
+    const closeNewTodoModal = () => {
+        _newTodoModal.close();
+        _newTodoForm.reset();
+    };
+
+    return { displayTodos, openNewTodoModal, closeNewTodoModal };
+})();

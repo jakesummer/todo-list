@@ -2,7 +2,7 @@ import Todo from "./todo.js";
 import Project from "./project.js";
 
 export default class AppManager {
-    #projects = [];
+    #projects = new Map();
     #todos = new Map();
 
     constructor() {
@@ -24,16 +24,16 @@ export default class AppManager {
     }
 
     get projects() {
-        return Object.freeze([...this.#projects]);
+        return Object.freeze(new Map(this.#projects));
     }
 
     get todos() {
-        return Object.freeze([...this.#todos]);
+        return Object.freeze(new Map(this.#todos));
     }
 
     createNewProject(projectName, id = null, isLoading = false) {
         const newProject = new Project(projectName, id);
-        this.#projects.push(newProject);
+        this.#projects.set(newProject.id, newProject);
 
         if (!isLoading) storage.save(newProject.id, newProject);
         
@@ -55,7 +55,7 @@ export default class AppManager {
     }
 
     getProject(projectID) {
-        return this.#projects.find(p => p.id === projectID);
+        return this.#projects.get(projectID);
     }
 
     getTodo(todoID) {
@@ -88,8 +88,7 @@ export default class AppManager {
     }
 
     removeProject(projectID) {
-        const index = this.#projects.findIndex(element => element.id === projectID)
-        this.#projects.splice(index, 1);
+        this.#projects.delete(projectID)
         storage.remove(projectID);
 
         for (const [key, value] of this.#todos) {

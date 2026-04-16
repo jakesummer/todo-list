@@ -1,16 +1,24 @@
 export default (function() {
     // DOM Elements
+    // New todo modal elements
     const _contentContainer = document.getElementById("content");
     const _newTodoModal = document.getElementById("new-todo-modal");
     const _newTodoForm = document.getElementById("new-todo-form");
     const _newTodoProjectDropdown = document.getElementById("new-todo-project-dropdown");
+    // Todo details elements
+    const _todoDetailsModal = document.getElementById("todo-details-modal");
+    const _detailsTitleText = document.getElementById("details-title")
+    const _detailsProjectText = document.getElementById("details-project");
+    const _detailsDueDateText = document.getElementById("details-due-date");
+    const _detailsPriorityText = document.getElementById("details-priority");
+    const _detailsDescriptionText = document.getElementById("details-description");
 
     const displayTodos = (project, todoList) => {
         _clearTodos();
         const projectTodoIDs = project.todoIDs;
         for (const id of projectTodoIDs) {
             const todo = todoList.get(id);
-            const newTodoCard = _createTodoCard(todo);
+            const newTodoCard = _createTodoCard(todo, project.projectName);
             _contentContainer.appendChild(newTodoCard);
         }
     };
@@ -19,9 +27,8 @@ export default (function() {
         _contentContainer.textContent = "";
     }
 
-    const _createTodoCard = (todo) => {
-        const todoCard = document.createElement("label");
-        todoCard.for = todo.id;
+    const _createTodoCard = (todo, projectName) => {
+        const todoCard = document.createElement("div");
         todoCard.classList.add("todo-card");
         todoCard.dataset.projectId = todo.projectID;
         todoCard.dataset.todoId = todo.id;
@@ -49,6 +56,10 @@ export default (function() {
         todoCard.appendChild(dueDate);
         todoCard.appendChild(priority);
 
+        todoCard.addEventListener("click", (e) => {
+            if (e.target.tagName !== "INPUT") _viewTodoDetails(todo, projectName);
+        });
+
         return todoCard;
     };
 
@@ -67,6 +78,16 @@ export default (function() {
         _newTodoModal.close();
         _newTodoForm.reset();
     };
+
+    const _viewTodoDetails = (todo, projectName) => {
+        _detailsTitleText.textContent = todo.todoTitle;
+        _detailsPriorityText.textContent = todo.priority;
+        _detailsPriorityText.className = `priority-${todo.priority}`;
+        _detailsProjectText.textContent = projectName;
+        _detailsDueDateText.textContent = todo.dueDate;
+        _detailsDescriptionText.textContent = todo.description;
+        _todoDetailsModal.showModal();
+    }
 
     return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos };
 })();

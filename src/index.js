@@ -16,6 +16,8 @@ function initApp() {
     const todoDueDateInput = document.getElementById("new-due-date-input");
     const todoProjectDropdown = document.getElementById("new-todo-project-dropdown");
     const cancelTodoBtn = document.getElementById("cancel-todo-btn");
+    const todoDetailsModal = document.getElementById("todo-details-modal");
+    const closeTodoDetailsBtn = document.getElementById("close-todo-details-btn")
 
     // Event Listeners
     newTodoBtn.addEventListener("click", () => displayManager.openNewTodoModal(appManager.projects));
@@ -34,6 +36,8 @@ function initApp() {
     })
 
     newTodoBtn.addEventListener("click", () => newTodoForm.reset());
+
+    closeTodoDetailsBtn.addEventListener("click", () => todoDetailsModal.close())
 }
 
 displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);

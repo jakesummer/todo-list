@@ -27,7 +27,8 @@ function initApp() {
         e.preventDefault();
         const newTodoPriority = document.querySelector('[name="priority-input"]:checked').value;
         const newTodoProject = todoProjectDropdown.value;
-        appManager.createNewTodo(todoTitleInput.value, todoDescInput.value, todoDueDateInput.value, newTodoPriority, newTodoProject);
+        const newTodoDueDate = new Date(todoDueDateInput.value);
+        appManager.createNewTodo(todoTitleInput.value, todoDescInput.value, newTodoDueDate, newTodoPriority, newTodoProject);
         displayManager.displayTodos(appManager.projects.get(newTodoProject), appManager.todos);
         displayManager.closeNewTodoModal();
     });

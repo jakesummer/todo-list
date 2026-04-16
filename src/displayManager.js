@@ -6,6 +6,7 @@ export default (function() {
     const _newTodoProjectDropdown = document.getElementById("new-todo-project-dropdown");
 
     const displayTodos = (project, todoList) => {
+        _clearTodos();
         const projectTodoIDs = project.todoIDs;
         for (const id of projectTodoIDs) {
             const todo = todoList.get(id);
@@ -13,6 +14,10 @@ export default (function() {
             _contentContainer.appendChild(newTodoCard);
         }
     };
+
+    const _clearTodos = () => {
+        _contentContainer.textContent = "";
+    }
 
     const _createTodoCard = (todo) => {
         const todoCard = document.createElement("label");
@@ -63,5 +68,5 @@ export default (function() {
         _newTodoForm.reset();
     };
 
-    return { displayTodos, openNewTodoModal, closeNewTodoModal };
+    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos };
 })();

@@ -86,7 +86,7 @@ export default class AppManager {
     removeTodo(todoID) {
         const todo = this.getTodo(todoID);
         const project = this.getProject(todo.projectID);
-        const index = project.todoIDs.findIndex(element => element.id === todoID);
+        const index = project.todoIDs.findIndex(element => element === todoID);
         project.todoIDs.splice(index, 1);
         this.#todos.delete(todoID);
         project.remove(todoID);

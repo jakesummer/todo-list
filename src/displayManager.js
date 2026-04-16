@@ -64,6 +64,7 @@ export default (function() {
     };
 
     const openNewTodoModal = (projectList) => {
+        _newTodoProjectDropdown.textContent = "";
         projectList.forEach(project => {
             const option = document.createElement("option");
             option.value = project.id;

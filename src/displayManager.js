@@ -123,10 +123,15 @@ export default (function () {
     }
 
     const displayProjects = (projectsList) => {
+        _clearProjects();
         for (const [id, project] of projectsList) {
             const newProjectBtn = _createNewProjectBtn(project);
             _projectsContainer.appendChild(newProjectBtn);
         }
+    }
+
+    const _clearProjects = () => {
+        _projectsContainer.textContent = "";
     }
 
     const _createNewProjectBtn = (project) => {

@@ -24,7 +24,11 @@ function initApp() {
     const closeTodoDetailsBtn = document.getElementById("close-todo-details-btn")
 
     // Event Listeners
-    newTodoBtn.addEventListener("click", () => displayManager.openNewTodoModal(appManager.projects, "default-project-id"));
+    newTodoBtn.addEventListener("click", () => {
+        newTodoForm.reset();
+        displayManager.openNewTodoModal(appManager.projects, "default-project-id");
+    });
+    cancelTodoBtn.addEventListener("click", () => displayManager.closeNewTodoModal());
 
     newTodoForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -47,12 +51,6 @@ function initApp() {
         displayManager.displayTodos(appManager.projects.get(todoProject), appManager.todos);
         displayManager.closeNewTodoModal();
     });
-
-    cancelTodoBtn.addEventListener("click", () => {
-        displayManager.closeNewTodoModal();
-    });
-
-    newTodoBtn.addEventListener("click", () => newTodoForm.reset());
 
     closeTodoDetailsBtn.addEventListener("click", () => todoDetailsModal.close());
 

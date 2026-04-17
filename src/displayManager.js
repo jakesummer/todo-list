@@ -16,6 +16,8 @@ export default (function () {
     const _detailsDueDateText = document.getElementById("details-due-date");
     const _detailsPriorityText = document.getElementById("details-priority");
     const _detailsDescriptionText = document.getElementById("details-description");
+    // Sidebar
+    const _projectsContainer = document.getElementById("projects-container");
 
     const displayTodos = (project, todoList) => {
         _clearTodos();
@@ -120,6 +122,25 @@ export default (function () {
         _todoDetailsModal.showModal();
     }
 
+    const displayProjects = (projectsList) => {
+        for (const [id, project] of projectsList) {
+            const newProjectBtn = _createNewProjectBtn(project);
+            _projectsContainer.appendChild(newProjectBtn);
+        }
+    }
+
+    const _createNewProjectBtn = (project) => {
+        const projectLi = document.createElement("li");
+
+        const projectBtn = document.createElement("button");
+        projectBtn.classList.add("project-btn");
+        projectBtn.dataset.projectId = project.id;
+        projectBtn.textContent = project.projectName;
+
+        projectLi.appendChild(projectBtn);
+        return projectLi;
+    }
+
     const _formatDate = (date) => {
         if (isToday(date)) {
             return `Today, ${format(date, "h:mm a")}`
@@ -131,5 +152,5 @@ export default (function () {
         }
     }
 
-    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos };
+    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos, displayProjects };
 })();

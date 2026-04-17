@@ -72,7 +72,7 @@ export default (function () {
         return todoCard;
     };
 
-    const openNewTodoModal = (projectList) => {
+    const openNewTodoModal = (projectList, defaultProjectID) => {
         _newTodoProjectDropdown.textContent = "";
         projectList.forEach(project => {
             const option = document.createElement("option");
@@ -80,6 +80,8 @@ export default (function () {
             option.text = project.projectName;
             _newTodoProjectDropdown.appendChild(option);
         });
+
+        _newTodoProjectDropdown.value = defaultProjectID;
 
         _newTodoModal.showModal();
     };

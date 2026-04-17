@@ -21,7 +21,7 @@ function initApp() {
     const closeTodoDetailsBtn = document.getElementById("close-todo-details-btn")
 
     // Event Listeners
-    newTodoBtn.addEventListener("click", () => displayManager.openNewTodoModal(appManager.projects));
+    newTodoBtn.addEventListener("click", () => displayManager.openNewTodoModal(appManager.projects, "default-project-id"));
 
     newTodoForm.addEventListener("submit", (e) => {
         e.preventDefault();

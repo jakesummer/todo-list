@@ -5,8 +5,10 @@ export default (function () {
     // New todo modal elements
     const _contentContainer = document.getElementById("content");
     const _newTodoModal = document.getElementById("new-todo-modal");
+    const _newTodoModalHeader = document.getElementById("new-todo-modal-header");
     const _newTodoForm = document.getElementById("new-todo-form");
     const _newTodoProjectDropdown = document.getElementById("new-todo-project-dropdown");
+    const _createNewTodoBtn = document.getElementById("create-todo-btn");
     // Todo details elements
     const _todoDetailsModal = document.getElementById("todo-details-modal");
     const _detailsTitleText = document.getElementById("details-title")
@@ -77,7 +79,7 @@ export default (function () {
         return todoCard;
     };
 
-    const openNewTodoModal = (projectList, defaultProjectID) => {
+    const openNewTodoModal = (projectList, defaultProjectID, isEditMode = false) => {
         _newTodoProjectDropdown.textContent = "";
         projectList.forEach(project => {
             const option = document.createElement("option");
@@ -85,6 +87,14 @@ export default (function () {
             option.text = project.projectName;
             _newTodoProjectDropdown.appendChild(option);
         });
+
+        if (isEditMode) {
+            _newTodoModalHeader.textContent = "Edit Todo";
+            _createNewTodoBtn.textContent = "Save Changes";
+        } else {
+            _newTodoModalHeader.textContent = "Create New Todo";
+            _createNewTodoBtn.textContent = "Create Todo";
+        }
 
         _newTodoProjectDropdown.value = defaultProjectID;
 

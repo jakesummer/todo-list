@@ -67,13 +67,16 @@ export default class AppManager {
         return this.#todos.get(todoID);
     }
 
-    editTodo(todoID, key, value) {
+    editTodo(todoID, updates) {
         const todo = this.getTodo(todoID);
-        if (Object.hasOwn(todo, key)) {
-            todo[key] = value;
-            storage.save(todoID, todo);
-        } else {
-            throw new TypeError(`${key} is not a valid key!`);
+
+        for (const [key, value] of Object.entries(updates)) {
+            if (Object.hasOwn(todo, key)) {
+                todo[key] = value;
+                storage.save(todoID, todo);
+            } else {
+                throw new TypeError(`${key} is not a valid key!`);
+            }
         }
     }
 

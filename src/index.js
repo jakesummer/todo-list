@@ -46,7 +46,8 @@ function initApp() {
         // Check if clicked item is the button to delete a todo
         const deleteBtn = e.target.closest(".delete-todo-btn")
         if (deleteBtn) {
-            const todoID = deleteBtn.dataset.todoId;
+            const todoCard = deleteBtn.closest(".todo-card");
+            const todoID = todoCard.dataset.todoId;
             appManager.removeTodo(todoID);
             displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
         }

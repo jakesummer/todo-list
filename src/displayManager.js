@@ -79,7 +79,7 @@ export default (function () {
         return todoCard;
     };
 
-    const openNewTodoModal = (projectList, defaultProjectID, isEditMode = false) => {
+    const openNewTodoModal = (projectList, defaultProjectID, isEditMode = false, editedProjectID = "") => {
         _newTodoProjectDropdown.textContent = "";
         projectList.forEach(project => {
             const option = document.createElement("option");
@@ -91,10 +91,14 @@ export default (function () {
         if (isEditMode) {
             _newTodoModalHeader.textContent = "Edit Todo";
             _createNewTodoBtn.textContent = "Save Changes";
+            _newTodoForm.dataset.mode = "edit";
         } else {
             _newTodoModalHeader.textContent = "Create New Todo";
             _createNewTodoBtn.textContent = "Create Todo";
+            _newTodoForm.dataset.mode = "create";
         }
+
+        _newTodoForm.dataset.todoId = editedProjectID;
 
         _newTodoProjectDropdown.value = defaultProjectID;
 

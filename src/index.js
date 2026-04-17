@@ -28,11 +28,23 @@ function initApp() {
 
     newTodoForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const newTodoPriority = document.querySelector('[name="priority-input"]:checked').value;
-        const newTodoProject = todoProjectDropdown.value;
-        const newTodoDueDate = new Date(todoDueDateInput.value);
-        appManager.createNewTodo(todoTitleInput.value, todoDescInput.value, newTodoDueDate, newTodoPriority, newTodoProject);
-        displayManager.displayTodos(appManager.projects.get(newTodoProject), appManager.todos);
+        const todoPriority = document.querySelector('[name="priority-input"]:checked').value;
+        const todoProject = todoProjectDropdown.value;
+        const todoDueDate = new Date(todoDueDateInput.value);
+
+        if (e.target.dataset.mode === "create") {
+            appManager.createNewTodo(todoTitleInput.value, todoDescInput.value, todoDueDate, todoPriority, todoProject);
+        } else {
+            appManager.editTodo(e.target.dataset.todoId, {
+                todoTitle: todoTitleInput.value,
+                description: todoDescInput.value,
+                dueDate: todoDueDate,
+                priority: todoPriority,
+                projectID: todoProject,
+            });
+        }
+
+        displayManager.displayTodos(appManager.projects.get(todoProject), appManager.todos);
         displayManager.closeNewTodoModal();
     });
 
@@ -64,7 +76,7 @@ function initApp() {
                 todoDueDateInput.value = format(todo.dueDate, "yyyy-MM-dd'T'HH:mm");
                 document.querySelector(`[name="priority-input"][value="${todo.priority}"]`).checked = true;
                 
-                displayManager.openNewTodoModal(appManager.projects, todo.projectID, true);
+                displayManager.openNewTodoModal(appManager.projects, todo.projectID, true, todo.id);
             }
         } 
     });

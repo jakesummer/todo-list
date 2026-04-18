@@ -22,6 +22,12 @@ function initApp() {
     const cancelTodoBtn = document.getElementById("cancel-todo-btn");
     const todoDetailsModal = document.getElementById("todo-details-modal");
     const closeTodoDetailsBtn = document.getElementById("close-todo-details-btn")
+    // Sidebar
+    const newProjectBtn = document.getElementById("new-project-btn");
+    // New project modal 
+    const newProjectForm = document.getElementById("new-project-form");
+    const projectNameInput = document.getElementById("new-project-name");
+    const cancelProjectBtn = document.getElementById("cancel-project-btn");
 
     // Event Listeners
     newTodoBtn.addEventListener("click", () => {
@@ -78,7 +84,21 @@ function initApp() {
             }
         } 
     });
+
+    newProjectBtn.addEventListener("click", () => { 
+        newProjectForm.reset();
+        displayManager.openNewProjectModal()
+    });
+    cancelProjectBtn.addEventListener("click", () => displayManager.closeNewProjectModal());
+
+    newProjectForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        appManager.createNewProject(projectNameInput.value);
+        displayManager.displayProjects(appManager.projects);
+        displayManager.closeNewProjectModal();
+    });
 }
 
 displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
+displayManager.displayProjects(appManager.projects);
 initApp();

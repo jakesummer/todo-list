@@ -18,6 +18,9 @@ export default (function () {
     const _detailsDescriptionText = document.getElementById("details-description");
     // Sidebar
     const _projectsContainer = document.getElementById("projects-container");
+    // New project modal elements
+    const _newProjectModal = document.getElementById("new-project-modal");
+    const _newProjectForm = document.getElementById("new-project-form");
 
     const displayTodos = (project, todoList) => {
         _clearTodos();
@@ -146,6 +149,15 @@ export default (function () {
         return projectLi;
     }
 
+    const openNewProjectModal = () => {
+        _newProjectModal.showModal();
+    }
+
+    const closeNewProjectModal = () => {
+        _newProjectForm.reset();
+        _newProjectModal.close();
+    }
+
     const _formatDate = (date) => {
         if (isToday(date)) {
             return `Today, ${format(date, "h:mm a")}`
@@ -157,5 +169,5 @@ export default (function () {
         }
     }
 
-    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos, displayProjects };
+    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos, displayProjects, openNewProjectModal, closeNewProjectModal };
 })();

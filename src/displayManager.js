@@ -1,6 +1,8 @@
 import { format, isTomorrow, isToday, formatDate } from "date-fns";
 
 export default (function () {
+    const _editSVGIcon = '<svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="edit"> <g> <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path> <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon> </g> </g> </g> </g></svg>';
+
     // DOM Elements
     // New todo modal elements
     const _contentContainer = document.getElementById("content");
@@ -24,6 +26,9 @@ export default (function () {
     // New project modal elements
     const _newProjectModal = document.getElementById("new-project-modal");
     const _newProjectForm = document.getElementById("new-project-form");
+    const _deleteProjectBtn = document.getElementById("delete-project-btn");
+    const _createProjectBtn = document.getElementById("create-project-btn");
+    const _projectNameInput = document.getElementById("new-project-name");
 
     const displayTodos = (project, todoList) => {
         _clearTodos();
@@ -65,7 +70,7 @@ export default (function () {
 
         const editTodoBtn = document.createElement("button");
         editTodoBtn.classList.add("edit-todo-btn");
-        editTodoBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="edit"> <g> <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path> <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon> </g> </g> </g> </g></svg>';
+        editTodoBtn.innerHTML = _editSVGIcon;
 
         const deleteTodoBtn = document.createElement("button");
         deleteTodoBtn.classList.add("delete-todo-btn");
@@ -99,7 +104,6 @@ export default (function () {
         if (isEditMode) {
             _newTodoModalHeader.textContent = "Edit Todo";
             _createNewTodoBtn.textContent = "Save Changes";
-            _newTodoForm.dataset.mode = "edit";
             _newTodoTitleInput.value = editedTodo.todoTitle;
             _newTodoDescInput.value = editedTodo.description;
             _newTodoDueDateInput.value = format(editedTodo.dueDate, "yyyy-MM-dd'T'HH:mm");
@@ -107,9 +111,9 @@ export default (function () {
         } else {
             _newTodoModalHeader.textContent = "Create New Todo";
             _createNewTodoBtn.textContent = "Create Todo";
-            _newTodoForm.dataset.mode = "create";
         }
 
+        _newTodoForm.dataset.mode = isEditMode ? "edit": "create";
         _newTodoForm.dataset.todoId = editedTodo ? editedTodo.id: "";
 
         _newTodoProjectDropdown.value = defaultProjectID;
@@ -146,17 +150,34 @@ export default (function () {
 
     const _createNewProjectBtn = (project) => {
         const projectLi = document.createElement("li");
+        projectLi.dataset.projectId = project.id;
 
         const projectBtn = document.createElement("button");
         projectBtn.classList.add("project-btn");
-        projectBtn.dataset.projectId = project.id;
         projectBtn.textContent = project.projectName;
 
+        const editBtn = document.createElement("button")
+        editBtn.classList.add("edit-project-btn");
+        editBtn.innerHTML = _editSVGIcon;
+
         projectLi.appendChild(projectBtn);
+        projectLi.appendChild(editBtn);
         return projectLi;
     }
 
-    const openNewProjectModal = () => {
+    const openNewProjectModal = (isEditMode = false, editedProject = null) => {
+        if (isEditMode) {
+            _deleteProjectBtn.style.display = "initial";
+            _projectNameInput.value = editedProject.projectName;
+            _createProjectBtn.textContent = "Save Changes";
+        } else {
+            _deleteProjectBtn.style.display = "none";
+            _createProjectBtn.textContent = "Create Project";
+        }
+
+        _newProjectForm.dataset.mode = isEditMode ? "edit": "create";
+        _newProjectForm.dataset.projectId = editedProject ? editedProject.id: "";
+
         _newProjectModal.showModal();
     }
 

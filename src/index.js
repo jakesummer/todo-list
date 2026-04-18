@@ -23,6 +23,7 @@ function initApp() {
     const todoDetailsModal = document.getElementById("todo-details-modal");
     const closeTodoDetailsBtn = document.getElementById("close-todo-details-btn")
     // Sidebar
+    const sidebar = document.getElementById("sidebar");
     const newProjectBtn = document.getElementById("new-project-btn");
     // New project modal 
     const newProjectForm = document.getElementById("new-project-form");
@@ -87,10 +88,26 @@ function initApp() {
 
     newProjectForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        appManager.createNewProject(projectNameInput.value);
+
+        if (e.target.dataset.mode === "create") {
+            appManager.createNewProject(projectNameInput.value);
+        } else {
+            appManager.editProjectName(e.target.dataset.projectId, projectNameInput.value);
+        }
         displayManager.displayProjects(appManager.projects);
         displayManager.closeNewProjectModal();
     });
+
+    // Event listener for pressing the edit project button
+    sidebar.addEventListener("click", (e) => {
+        const btn = e.target.closest(".edit-project-btn");
+
+        if (btn) {
+            const projectID = btn.closest("li").dataset.projectId;
+            const project = appManager.getProject(projectID);
+            displayManager.openNewProjectModal(true, project);
+        }
+    })
 }
 
 displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);

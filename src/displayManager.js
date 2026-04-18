@@ -156,12 +156,15 @@ export default (function () {
         projectBtn.classList.add("project-btn");
         projectBtn.textContent = project.projectName;
 
-        const editBtn = document.createElement("button")
-        editBtn.classList.add("edit-project-btn");
-        editBtn.innerHTML = _editSVGIcon;
+        let editBtn;
+        if (project.id !== "default-project-id") {
+            editBtn = document.createElement("button")
+            editBtn.classList.add("edit-project-btn");
+            editBtn.innerHTML = _editSVGIcon;
+        }
 
         projectLi.appendChild(projectBtn);
-        projectLi.appendChild(editBtn);
+        editBtn ? projectLi.appendChild(editBtn): "";
         return projectLi;
     }
 

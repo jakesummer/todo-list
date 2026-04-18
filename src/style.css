@@ -67,10 +67,10 @@ h6 {
 
 /* === Styles === */
 @font-face {
-    font-family: 'Comfortaa';
-    src: url('fonts/Comfortaa.woff2') format('woff2-variations'),
-        url('fonts/Comfortaa.woff') format('woff-variations');
-    font-weight: 300 700;
+    font-family: 'Lexend';
+    src: url('fonts/Lexend.woff2') format('woff2-variations'),
+        url('fonts/Lexend.woff') format('woff-variations');
+    font-weight: 100 900;
     font-style: normal;
     font-display: swap;
 }
@@ -85,8 +85,8 @@ h6 {
 }
 
 :root {
-    --comfortaa-font: "Comfortaa", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    --nunito-font: "Nunito", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --heading-font: "Lexend", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --body-font: "Nunito", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --primary-color: #00FF94;
     --surface-0-color: #0e0e0e;
     --surface-1-color: #18181b;
@@ -121,7 +121,7 @@ header {
     height: 100%;
     background-color: var(--surface-1-color);
     color: var(--secondary-font-color);
-    font-family: var(--nunito-font);
+    font-family: var(--body-font);
     text-align: center;
 }
 
@@ -143,7 +143,7 @@ button {
 }
 
 .sidebar-heading {
-    font-family: var(--comfortaa-font);
+    font-family: var(--heading-font);
     font-weight: 700;
     font-size: 0.7rem;
     letter-spacing: 0.2ch;

@@ -29,6 +29,7 @@ function initApp() {
     const newProjectForm = document.getElementById("new-project-form");
     const projectNameInput = document.getElementById("new-project-name");
     const cancelProjectBtn = document.getElementById("cancel-project-btn");
+    const deleteProjectBtn = document.getElementById("delete-project-btn");
 
     // Event Listeners
     newTodoBtn.addEventListener("click", () => {
@@ -107,6 +108,14 @@ function initApp() {
             const project = appManager.getProject(projectID);
             displayManager.openNewProjectModal(true, project);
         }
+    })
+
+    deleteProjectBtn.addEventListener("click", (e) => {
+        const projectID = newProjectForm.dataset.projectId;
+        appManager.removeProject(projectID);
+        displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
+        displayManager.displayProjects(appManager.projects);
+        displayManager.closeNewProjectModal();
     })
 }
 

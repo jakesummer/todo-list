@@ -8,6 +8,8 @@ import DisplayManager from "./displayManager.js";
 const appManager = new AppManager();
 const displayManager = DisplayManager;
 
+const DEFAULT_PROJECT_ID = "default-project-id";
+
 function initApp() {
     // Dom Elements
     const contentContainer = document.getElementById("content");
@@ -34,7 +36,7 @@ function initApp() {
     // Event Listeners
     newTodoBtn.addEventListener("click", () => {
         newTodoForm.reset();
-        displayManager.openNewTodoModal(appManager.projects, "default-project-id");
+        displayManager.openNewTodoModal(appManager.projects, DEFAULT_PROJECT_ID);
     });
     cancelTodoBtn.addEventListener("click", () => displayManager.closeNewTodoModal());
 
@@ -73,7 +75,7 @@ function initApp() {
 
             if (btn.classList.contains("delete-todo-btn")) {
                 appManager.removeTodo(todoID);
-                displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
+                displayManager.displayTodos(appManager.projects.get(DEFAULT_PROJECT_ID), appManager.todos);
             } else {
                 const todo = appManager.getTodo(todoID);
                 displayManager.openNewTodoModal(appManager.projects, todo.projectID, true, todo);
@@ -113,12 +115,12 @@ function initApp() {
     deleteProjectBtn.addEventListener("click", (e) => {
         const projectID = newProjectForm.dataset.projectId;
         appManager.removeProject(projectID);
-        displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
+        displayManager.displayTodos(appManager.projects.get(DEFAULT_PROJECT_ID), appManager.todos);
         displayManager.displayProjects(appManager.projects);
         displayManager.closeNewProjectModal();
     })
 }
 
-displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
+displayManager.displayTodos(appManager.projects.get(DEFAULT_PROJECT_ID), appManager.todos);
 displayManager.displayProjects(appManager.projects);
 initApp();

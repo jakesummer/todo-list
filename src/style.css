@@ -52,6 +52,29 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* === Styles === */
+@font-face {
+    font-family: 'Comfortaa';
+    src: url('fonts/Comfortaa.woff2') format('woff2-variations'),
+        url('fonts/Comfortaa.woff') format('woff-variations');
+    font-weight: 300 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('fonts/Nunito.woff2') format('woff2-variations'),
+        url('fonts/Nunito.woff') format('woff-variations');
+    font-weight: 200 1000;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --comfortaa-font: "Comfortaa", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --nunito-font: "Nunito", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 body {
     margin: 0;
     height: 100vh;

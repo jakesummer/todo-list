@@ -69,7 +69,7 @@ function initApp() {
 
     // Event Listener for pressing the delete or edit button on a todo card
     contentContainer.addEventListener("click", (e) => {
-        const btn = e.target.closest(".delete-todo-btn") || e.target.closest(".edit-todo-btn")
+        const btn = e.target.closest(".delete-todo-btn") || e.target.closest(".edit-todo-btn") || e.target.closest(".todo-check-box");
         
         // Check if clicked item is the button to delete or edit a todo
         if (btn) {
@@ -79,9 +79,15 @@ function initApp() {
             if (btn.classList.contains("delete-todo-btn")) {
                 appManager.removeTodo(todoID);
                 displayManager.displayTodos(appManager.projects.get(DEFAULT_PROJECT_ID), appManager.todos);
-            } else {
+            } else if(btn.classList.contains("edit-todo-btn")) {
                 const todo = appManager.getTodo(todoID);
                 displayManager.openNewTodoModal(appManager.projects, todo.projectID, true, todo);
+            } else {
+                const isChecked = btn.checked;
+                appManager.getTodo(todoID).isCompleted = isChecked;
+                
+                if (isChecked) todoCard.classList.add("checked-todo");
+                else todoCard.classList.remove("checked-todo");
             }
         } 
     });

@@ -53,7 +53,7 @@ export default (function () {
 
         const checkBox = document.createElement("input")
         checkBox.type = "checkbox";
-        checkBox.id = todo.id;
+        checkBox.classList.add("todo-check-box")
 
         const title = document.createElement("p");
         title.classList.add("todo-title");

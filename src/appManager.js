@@ -6,24 +6,26 @@ export default class AppManager {
     #todos = new Map();
 
     constructor() {
-        const data = storage.load();    
+        const data = storage.load();  
 
-        // Create all projects
-        for (const obj of data) {
-            if (Object.hasOwn(obj, "projectName")) {
+        // Create projects map from saved data
+        if (data["projects"]) {
+            for (const arr of data["projects"]) {
+                const obj = arr[1];
                 this.createNewProject(obj.projectName, obj.id, true);
-            } 
+            }
         }
 
         // Create default project if it's not already created
         if (this.#projects.size === 0) {
             this.createNewProject("General", "default-project-id");
         }
-        
-        // Create all todos
-        for (const obj of data) {
-            if(!Object.hasOwn(obj, "projectName")) {
-                this.createNewTodo(obj.todoTitle, obj.description, obj.dueDate, obj.priority, obj.projectID, obj.id, true);
+
+        // Create todos map from saved data
+        if (data["todos"]) {
+            for (const arr of data["todos"]) {
+                const obj = arr[1];
+                const t = this.createNewTodo(obj.todoTitle, obj.description, obj.dueDate, obj.priority, obj.projectID, obj.id, true);
             }
         }
     }
@@ -40,7 +42,7 @@ export default class AppManager {
         const newProject = new Project(projectName, id);
         this.#projects.set(newProject.id, newProject);
 
-        if (!isLoading) storage.save(newProject.id, newProject);
+        if (!isLoading) this.#saveProjects();
         
         return newProject.id;
     }
@@ -52,8 +54,8 @@ export default class AppManager {
         this.#todos.set(newTodo.id, newTodo);
 
         if (!isLoading) {
-            storage.save(newTodo.id, newTodo);
-            storage.save(projectID, project);
+            this.#saveTodos();
+            this.#saveProjects();
         }
 
         return newTodo.id;
@@ -73,7 +75,7 @@ export default class AppManager {
         for (const [key, value] of Object.entries(updates)) {
             if (Object.hasOwn(todo, key)) {
                 todo[key] = value;
-                storage.save(todoID, todo);
+                this.#saveTodos();
             } else {
                 throw new TypeError(`${key} is not a valid key!`);
             }
@@ -83,34 +85,42 @@ export default class AppManager {
     editProjectName(projectID, newName) {
         const project = this.getProject(projectID);
         project.projectName = newName;
-        storage.save(project.id, project);
+        this.#saveProjects();
     }
 
     removeTodo(todoID) {
         const todo = this.getTodo(todoID);
         const project = this.getProject(todo.projectID);
-        const index = project.todoIDs.findIndex(element => element === todoID);
+        const index = project.todoIDs.findIndex(element => element === todoID);;
         project.todoIDs.splice(index, 1);
         this.#todos.delete(todoID);
-        storage.remove(todoID);
+        this.#saveTodos();
     }
 
     removeProject(projectID) {
         this.#projects.delete(projectID)
-        storage.remove(projectID);
+        this.#saveProjects();
 
         for (const [key, value] of this.#todos) {
             if (value.projectID === projectID) {
                 this.#todos.delete(key);
-                storage.remove(key);
             }
         }
+        this.#saveTodos();
+    }
+
+    #saveTodos() {
+        storage.save("todos", Array.from(this.#todos));
+    }
+
+    #saveProjects() {
+        storage.save("projects", Array.from(this.#projects))
     }
 }
 
 const storage = function () {
     const save = (key, value) => {
-        key = `todoList_${JSON.stringify(key)}`;
+        key = `todoList_${key}`;
         value = JSON.stringify(value);
         try {
             localStorage.setItem(key, value);
@@ -125,18 +135,18 @@ const storage = function () {
     };
 
     const load = () => {
-        const data = [];
+        const data = {};
         for (let i = 0; i < localStorage.length; i++) {
             let key = localStorage.key(i);
-            const value = localStorage.getItem(key);
+            let value = localStorage.getItem(key);
             
             if (!key.startsWith("todoList_")) continue;
 
-            key = key.replace("/^todoList_/", "");
+            key = key.replace(/^todoList_/, "");
 
             try {
-                const parsedData = JSON.parse(value);
-                data.push(parsedData);
+                value = JSON.parse(value);
+                data[key] = value;
             } catch {
                 continue;
             }

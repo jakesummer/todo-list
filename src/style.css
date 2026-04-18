@@ -256,6 +256,7 @@ button {
     color: var(--secondary-font-color-light);
     fill: var(--secondary-font-color-light);
     cursor: pointer;
+    border-left: 5px solid transparent;
 }
 
 .todo-card:hover {
@@ -319,6 +320,26 @@ button {
     background: none;
     border: none;
     width: 1.4rem;
+}
+
+.edit-todo-btn:hover {
+    fill: var(--primary-color);
+}
+
+.delete-todo-btn:hover {
+    fill: var(--priority-high-primary-color);
+}
+
+.todo-card:has(.priority-high):hover {
+    border-color: var(--priority-high-primary-color);
+}
+
+.todo-card:has(.priority-medium):hover {
+    border-color: var(--priority-medium-primary-color);
+}
+
+.todo-card:has(.priority-low):hover {
+    border-color: var(--priority-low-primary-color);
 }
 
 .todo-card-right {

@@ -88,6 +88,8 @@ function initApp() {
                 
                 if (isChecked) todoCard.classList.add("checked-todo");
                 else todoCard.classList.remove("checked-todo");
+
+                displayManager.updateDueDateText(appManager.getTodo(todoID));
             }
         } 
     });

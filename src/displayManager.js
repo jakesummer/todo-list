@@ -2,6 +2,7 @@ import { format, isTomorrow, isToday, formatDate } from "date-fns";
 
 export default (function () {
     const _editSVGIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>pencil</title><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>';
+    const _dueDateSVGIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>calendar-today-outline</title><path d="M19 3H18V1H16V3H8V1H6V3H5C3.9 3 3 3.89 3 5V19C3 20.11 3.9 21 5 21H19C20.11 21 21 20.11 21 19V5C21 3.89 20.11 3 19 3M19 19H5V9H19V19M19 7H5V5H19" /><circle cx="14.5" cy="14.5" r="2" /></svg>';
     let _todoCounter = 0;
 
     // DOM Elements
@@ -75,8 +76,7 @@ export default (function () {
 
         const dueDate = document.createElement("p");
         dueDate.classList.add("todo-due-date");
-        const dueDateSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><title>calendar-today-outline</title><path d="M19 3H18V1H16V3H8V1H6V3H5C3.9 3 3 3.89 3 5V19C3 20.11 3.9 21 5 21H19C20.11 21 21 20.11 21 19V5C21 3.89 20.11 3 19 3M19 19H5V9H19V19M19 7H5V5H19" /><circle cx="14.5" cy="14.5" r="2" /></svg>';
-        dueDate.innerHTML = `${dueDateSVG} <span>${_formatDate(todo.dueDate)}</span>`;
+        dueDate.innerHTML = `${_dueDateSVGIcon} <span>${_formatDate(todo.dueDate)}</span>`;
 
         const rightSide = document.createElement("div");
         rightSide.classList.add("todo-card-right");
@@ -154,7 +154,18 @@ export default (function () {
         _detailsDueDateText.textContent = _formatDate(todo.dueDate);
         _detailsDescriptionText.textContent = todo.description;
         _todoDetailsModal.showModal();
-    }
+    };
+
+    const updateDueDateText = (todo) => {
+        const todoID = todo.id;
+        const todoCard = document.querySelector(`.todo-card[data-todo-id="${todoID}"]`);
+        const dueDateText = todoCard.querySelector(".todo-due-date");
+        const finishedSVGIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>check-all</title><path d="M0.41,13.41L6,19L7.41,17.58L1.83,12M22.24,5.58L11.66,16.17L7.5,12L6.07,13.41L11.66,19L23.66,7M18,7L16.59,5.58L10.24,11.93L11.66,13.34L18,7Z" /></svg>'
+
+        dueDateText.innerHTML = todoCard.classList.contains("checked-todo") ?
+            `${finishedSVGIcon} <span>FINISHED</span>`:
+            `${_dueDateSVGIcon} <span>${_formatDate(todo.dueDate)}</span>`;
+    };
 
     const displayProjects = (projectsList, selectedProjectID, selectedProjectName) => {
         _clearProjects();
@@ -229,5 +240,5 @@ export default (function () {
         }
     }
 
-    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos, displayProjects, updateSelectedProject, openNewProjectModal, closeNewProjectModal };
+    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos, updateDueDateText, displayProjects, updateSelectedProject, openNewProjectModal, closeNewProjectModal };
 })();

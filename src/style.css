@@ -293,6 +293,10 @@ button {
     align-items: center;
 }
 
+.todo-due-date svg {
+    width: 1.4rem;
+}
+
 .todo-priority {
     text-transform: uppercase;
     font-weight: 700;

@@ -224,6 +224,11 @@ button {
     visibility: visible;
 }
 
+.selected-project .project-btn {
+    color: var(--primary-color) !important;
+    font-weight: 1000 !important;
+}
+
 #new-project-btn {
     -webkit-box-shadow: 0px -3px 12px 3px rgba(0, 0, 0, 0.77);
     box-shadow: 0px -3px 12px 3px rgba(0, 0, 0, 0.77);

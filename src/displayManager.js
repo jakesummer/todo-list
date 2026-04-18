@@ -7,6 +7,9 @@ export default (function () {
     const _newTodoModal = document.getElementById("new-todo-modal");
     const _newTodoModalHeader = document.getElementById("new-todo-modal-header");
     const _newTodoForm = document.getElementById("new-todo-form");
+    const _newTodoTitleInput = document.getElementById("new-title-input");
+    const _newTodoDescInput = document.getElementById("new-description-input");
+    const _newTodoDueDateInput = document.getElementById("new-due-date-input");
     const _newTodoProjectDropdown = document.getElementById("new-todo-project-dropdown");
     const _createNewTodoBtn = document.getElementById("create-todo-btn");
     // Todo details elements
@@ -84,7 +87,7 @@ export default (function () {
         return todoCard;
     };
 
-    const openNewTodoModal = (projectList, defaultProjectID, isEditMode = false, editedProjectID = "") => {
+    const openNewTodoModal = (projectList, defaultProjectID, isEditMode = false, editedTodo = null) => {
         _newTodoProjectDropdown.textContent = "";
         projectList.forEach(project => {
             const option = document.createElement("option");
@@ -97,13 +100,17 @@ export default (function () {
             _newTodoModalHeader.textContent = "Edit Todo";
             _createNewTodoBtn.textContent = "Save Changes";
             _newTodoForm.dataset.mode = "edit";
+            _newTodoTitleInput.value = editedTodo.todoTitle;
+            _newTodoDescInput.value = editedTodo.description;
+            _newTodoDueDateInput.value = format(editedTodo.dueDate, "yyyy-MM-dd'T'HH:mm");
+            document.querySelector(`[name="priority-input"][value="${editedTodo.priority}"]`).checked = true;
         } else {
             _newTodoModalHeader.textContent = "Create New Todo";
             _createNewTodoBtn.textContent = "Create Todo";
             _newTodoForm.dataset.mode = "create";
         }
 
-        _newTodoForm.dataset.todoId = editedProjectID;
+        _newTodoForm.dataset.todoId = editedTodo ? editedTodo.id: "";
 
         _newTodoProjectDropdown.value = defaultProjectID;
 

@@ -74,13 +74,7 @@ function initApp() {
                 displayManager.displayTodos(appManager.projects.get("default-project-id"), appManager.todos);
             } else {
                 const todo = appManager.getTodo(todoID);
-                todoTitleInput.value = todo.todoTitle;
-                todoDescInput.value = todo.description;
-                // 2026-04-24T14:52
-                todoDueDateInput.value = format(todo.dueDate, "yyyy-MM-dd'T'HH:mm");
-                document.querySelector(`[name="priority-input"][value="${todo.priority}"]`).checked = true;
-                
-                displayManager.openNewTodoModal(appManager.projects, todo.projectID, true, todo.id);
+                displayManager.openNewTodoModal(appManager.projects, todo.projectID, true, todo);
             }
         } 
     });

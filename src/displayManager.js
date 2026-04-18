@@ -58,9 +58,16 @@ export default (function () {
         todoCard.dataset.projectId = todo.projectID;
         todoCard.dataset.todoId = todo.id;
 
+        const checkboxContainer = document.createElement("label");
+        checkboxContainer.classList.add("todo-check-box-container");
+        checkboxContainer.setAttribute("for", todo.id);
+
         const checkBox = document.createElement("input")
         checkBox.type = "checkbox";
-        checkBox.classList.add("todo-check-box")
+        checkBox.classList.add("todo-check-box");
+        checkBox.id = todo.id
+
+        checkboxContainer.appendChild(checkBox);
 
         const title = document.createElement("p");
         title.classList.add("todo-title");
@@ -91,13 +98,13 @@ export default (function () {
         rightSide.appendChild(editTodoBtn)
         rightSide.appendChild(deleteTodoBtn)
 
-        todoCard.appendChild(checkBox);
+        todoCard.appendChild(checkboxContainer);
         todoCard.appendChild(title);
         todoCard.appendChild(dueDate);
         todoCard.appendChild(rightSide);
 
         todoCard.addEventListener("click", (e) => {
-            if (!e.target.closest("input, button")) {
+            if (!e.target.closest("input, button, .todo-check-box-container")) {
                 _viewTodoDetails(todo, projectName);
             }
         });

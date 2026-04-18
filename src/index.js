@@ -67,7 +67,7 @@ function initApp() {
 
     closeTodoDetailsBtn.addEventListener("click", () => todoDetailsModal.close());
 
-    // Event Listener for pressing the delete or edit button on a todo card
+    // Event Listener for pressing the delete, edit, or checkbox button on a todo card
     contentContainer.addEventListener("click", (e) => {
         const btn = e.target.closest(".delete-todo-btn") || e.target.closest(".edit-todo-btn") || e.target.closest(".todo-check-box");
         

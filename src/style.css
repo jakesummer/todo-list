@@ -88,6 +88,7 @@ h6 {
     --heading-font: "Lexend", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --body-font: "Nunito", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --primary-color: #00FF94;
+    /* --primary-color-light: #60c49b; */
     --surface-0-color: #121212;
     --surface-1-color: #18181b;
     --surface-1-hover-color: #5c5c62;
@@ -274,11 +275,6 @@ button {
     box-shadow: 0px 17px 15px -1px rgba(0,0,0,0.8);
 }
 
-.todo-check-box {
-    grid-row: 1 / 3;
-    grid-column: 1 / 2;
-    place-self: center;
-}
 
 .todo-title {
     grid-row: 1 / 2;
@@ -339,15 +335,15 @@ button {
     fill: var(--priority-high-primary-color);
 }
 
-.todo-card:has(.priority-high):hover {
+.todo-card:has(.priority-high):hover:not(.checked-todo) {
     border-color: var(--priority-high-primary-color);
 }
 
-.todo-card:has(.priority-medium):hover {
+.todo-card:has(.priority-medium):hover:not(.checked-todo) {
     border-color: var(--priority-medium-primary-color);
 }
 
-.todo-card:has(.priority-low):hover {
+.todo-card:has(.priority-low):hover:not(.checked-todo) {
     border-color: var(--priority-low-primary-color);
 }
 
@@ -356,6 +352,65 @@ button {
     place-self: center;
     display: flex;
     gap: 1rem;
+}
+
+.todo-check-box-container {
+    grid-row: 1 / 3;
+    grid-column: 1 / 2;
+    place-self: center;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.todo-check-box-container::before,
+.todo-check-box-container::after {
+    position: absolute;
+}
+
+.todo-check-box-container::before {
+    width: 1.5rem;
+    height: 1.5rem;
+    content: "";
+    background-color: var(--surface-1-color);
+    border-radius: 50%;
+    border: 2px solid var(--secondary-font-color);
+}
+
+.todo-check-box-container::after {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>check-bold</title><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg>');;
+    width: 1rem;
+    height: 1rem;
+    bottom: -7px;
+    visibility: hidden;
+}
+
+.todo-check-box-container:has(.todo-check-box:checked)::before {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.todo-check-box-container:has(.todo-check-box:checked)::after {
+    visibility: visible;
+}
+
+.todo-check-box {
+    appearance: none;
+}
+
+.checked-todo {
+    filter: saturate(50%) brightness(80%);
+}
+
+.checked-todo .todo-priority,
+.checked-todo .edit-todo-btn {
+    visibility: hidden;
+}
+
+.checked-todo .todo-title {
+    text-decoration: line-through;
 }
 
 .primary-btn,

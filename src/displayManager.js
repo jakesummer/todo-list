@@ -1,7 +1,7 @@
 import { format, isTomorrow, isToday, formatDate } from "date-fns";
 
 export default (function () {
-    const _editSVGIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><title>pencil</title><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>';
+    const _editSVGIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>pencil</title><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>';
     let _todoCounter = 0;
 
     // DOM Elements
@@ -71,6 +71,9 @@ export default (function () {
         const dueDateSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><title>calendar-today-outline</title><path d="M19 3H18V1H16V3H8V1H6V3H5C3.9 3 3 3.89 3 5V19C3 20.11 3.9 21 5 21H19C20.11 21 21 20.11 21 19V5C21 3.89 20.11 3 19 3M19 19H5V9H19V19M19 7H5V5H19" /><circle cx="14.5" cy="14.5" r="2" /></svg>';
         dueDate.innerHTML = `${dueDateSVG} <span>${_formatDate(todo.dueDate)}</span>`;
 
+        const rightSide = document.createElement("div");
+        rightSide.classList.add("todo-card-right");
+
         const priority = document.createElement("p");
         priority.classList.add("todo-priority");
         priority.classList.add(`priority-${todo.priority}`);
@@ -79,17 +82,19 @@ export default (function () {
         const editTodoBtn = document.createElement("button");
         editTodoBtn.classList.add("edit-todo-btn");
         editTodoBtn.innerHTML = _editSVGIcon;
-
+        
         const deleteTodoBtn = document.createElement("button");
         deleteTodoBtn.classList.add("delete-todo-btn");
-        deleteTodoBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>';
+        deleteTodoBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>trash-can-outline</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>';
+        
+        rightSide.appendChild(priority)
+        rightSide.appendChild(editTodoBtn)
+        rightSide.appendChild(deleteTodoBtn)
 
         todoCard.appendChild(checkBox);
         todoCard.appendChild(title);
         todoCard.appendChild(dueDate);
-        todoCard.appendChild(priority);
-        todoCard.appendChild(editTodoBtn);
-        todoCard.appendChild(deleteTodoBtn);
+        todoCard.appendChild(rightSide);
 
         todoCard.addEventListener("click", (e) => {
             if (!e.target.closest("input, button")) {

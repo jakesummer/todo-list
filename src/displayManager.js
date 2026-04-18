@@ -2,9 +2,12 @@ import { format, isTomorrow, isToday, formatDate } from "date-fns";
 
 export default (function () {
     const _editSVGIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><title>pencil</title><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>';
+    let _todoCounter = 0;
 
     // DOM Elements
     const _projectNameHeading = document.getElementById("project-name-heading");
+    const _todoCountText = document.getElementById("todo-count");
+    const _todoCountLabel = document.getElementById("todo-count-label");
     // New todo modal elements
     const _contentContainer = document.getElementById("content");
     const _newTodoModal = document.getElementById("new-todo-modal");
@@ -32,13 +35,17 @@ export default (function () {
     const _projectNameInput = document.getElementById("new-project-name");
 
     const displayTodos = (project, todoList) => {
+        _todoCounter = 0;
         _clearTodos();
         const projectTodoIDs = project.todoIDs;
         for (const id of projectTodoIDs) {
             const todo = todoList.get(id);
             const newTodoCard = _createTodoCard(todo, project.projectName);
             _contentContainer.appendChild(newTodoCard);
+            _todoCounter++;
         }
+        _todoCountText.textContent = _todoCounter;
+        _todoCountLabel.textContent = _todoCounter === 1 ? "todo": "todos";
     };
 
     const _clearTodos = () => {
@@ -149,7 +156,7 @@ export default (function () {
     const updateSelectedProject = (selectedProjectID, selectedProjectName = "") => {
         document.querySelector(".selected-project").classList.remove("selected-project");
         document.querySelector(`li[data-project-id="${selectedProjectID}"]`).classList.add("selected-project")
-        selectedProjectName ? _projectNameHeading.textContent = selectedProjectName: "";
+        if (selectedProjectName) _projectNameHeading.textContent = selectedProjectName;
     }
 
     const _clearProjects = () => {

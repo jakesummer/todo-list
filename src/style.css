@@ -95,6 +95,7 @@ h6 {
     --surface-2-hover-color: #3c3c3c;
     --primary-font-color: #ffffff;
     --secondary-font-color: #80808a;
+    --secondary-font-color-light: #b1b1b3;
 }
 
 body {
@@ -121,6 +122,16 @@ h1 {
     font-family: var(--heading-font);
     font-weight: 700;
     font-size: 3ren;
+}
+
+header p {
+    color: var(--secondary-font-color-light);
+    font-weight: 500;
+}
+
+#todo-count {
+    color: var(--primary-color);
+    font-weight: 800;
 }
 
 #new-todo-btn {

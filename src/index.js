@@ -10,7 +10,10 @@ const displayManager = DisplayManager;
 
 const DEFAULT_PROJECT_ID = "default-project-id";
 
+let selectedProjectID = DEFAULT_PROJECT_ID;
+
 function initApp() {
+
     // Dom Elements
     const contentContainer = document.getElementById("content");
     // New todo modal
@@ -95,32 +98,42 @@ function initApp() {
         if (e.target.dataset.mode === "create") {
             appManager.createNewProject(projectNameInput.value);
         } else {
-            appManager.editProjectName(e.target.dataset.projectId, projectNameInput.value);
+            const projectID = e.target.dataset.projectId
+            appManager.editProjectName(projectID, projectNameInput.value);
+            if (projectID === selectedProjectID) displayManager.updateSelectedProject(projectID, projectNameInput.value);
         }
-        displayManager.displayProjects(appManager.projects);
+        displayManager.displayProjects(appManager.projects, selectedProjectID);
         displayManager.closeNewProjectModal();
     });
 
-    // Event listener for pressing the edit project button
+    // Event listener for pressing the project or edit project button
     sidebar.addEventListener("click", (e) => {
-        const btn = e.target.closest(".edit-project-btn");
+        const btn =  e.target.closest(".project-btn") || e.target.closest(".edit-project-btn");
 
         if (btn) {
             const projectID = btn.closest("li").dataset.projectId;
             const project = appManager.getProject(projectID);
-            displayManager.openNewProjectModal(true, project);
+
+            if (btn.classList.contains("project-btn")) {
+                displayManager.displayTodos(project, appManager.todos);
+                selectedProjectID = projectID;
+                displayManager.updateSelectedProject(selectedProjectID, project.projectName)
+            } else {
+                displayManager.openNewProjectModal(true, project);
+            }
         }
-    })
+    });
 
     deleteProjectBtn.addEventListener("click", (e) => {
         const projectID = newProjectForm.dataset.projectId;
         appManager.removeProject(projectID);
-        displayManager.displayTodos(appManager.projects.get(DEFAULT_PROJECT_ID), appManager.todos);
-        displayManager.displayProjects(appManager.projects);
+        selectedProjectID = DEFAULT_PROJECT_ID
+        displayManager.displayTodos(appManager.getProject(DEFAULT_PROJECT_ID), appManager.todos);
+        displayManager.displayProjects(appManager.projects, selectedProjectID, appManager.getProject(selectedProjectID).projectName);
         displayManager.closeNewProjectModal();
-    })
+    });
 }
 
 displayManager.displayTodos(appManager.projects.get(DEFAULT_PROJECT_ID), appManager.todos);
-displayManager.displayProjects(appManager.projects);
+displayManager.displayProjects(appManager.projects, selectedProjectID);
 initApp();

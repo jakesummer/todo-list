@@ -4,6 +4,7 @@ export default (function () {
     const _editSVGIcon = '<svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title></title> <g id="Complete"> <g id="edit"> <g> <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path> <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon> </g> </g> </g> </g></svg>';
 
     // DOM Elements
+    const _projectNameHeading = document.getElementById("project-name-heading");
     // New todo modal elements
     const _contentContainer = document.getElementById("content");
     const _newTodoModal = document.getElementById("new-todo-modal");
@@ -136,12 +137,19 @@ export default (function () {
         _todoDetailsModal.showModal();
     }
 
-    const displayProjects = (projectsList) => {
+    const displayProjects = (projectsList, selectedProjectID, selectedProjectName) => {
         _clearProjects();
         for (const [id, project] of projectsList) {
             const newProjectBtn = _createNewProjectBtn(project);
             _projectsContainer.appendChild(newProjectBtn);
         }
+        updateSelectedProject(selectedProjectID, selectedProjectName);
+    }
+
+    const updateSelectedProject = (selectedProjectID, selectedProjectName = "") => {
+        document.querySelector(".selected-project").classList.remove("selected-project");
+        document.querySelector(`li[data-project-id="${selectedProjectID}"]`).classList.add("selected-project")
+        selectedProjectName ? _projectNameHeading.textContent = selectedProjectName: "";
     }
 
     const _clearProjects = () => {
@@ -161,6 +169,8 @@ export default (function () {
             editBtn = document.createElement("button")
             editBtn.classList.add("edit-project-btn");
             editBtn.innerHTML = _editSVGIcon;
+        } else {
+            projectLi.classList.add("selected-project");
         }
 
         projectLi.appendChild(projectBtn);
@@ -200,5 +210,5 @@ export default (function () {
         }
     }
 
-    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos, displayProjects, openNewProjectModal, closeNewProjectModal };
+    return { displayTodos, openNewTodoModal, closeNewTodoModal, _clearTodos, displayProjects, updateSelectedProject, openNewProjectModal, closeNewProjectModal };
 })();

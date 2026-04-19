@@ -88,7 +88,6 @@ h6 {
     --heading-font: "Lexend", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --body-font: "Nunito", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --primary-color: #00FF94;
-    /* --primary-color-light: #60c49b; */
     --surface-0-color: #121212;
     --surface-1-color: #18181b;
     --surface-1-hover-color: #5c5c62;
@@ -109,7 +108,7 @@ body {
     margin: 0;
     height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 5fr;
+    grid-template-rows: 1.5fr 5fr;
     grid-template-columns: 1fr 5fr;
     background-color: var(--surface-0-color);
     font-family: var(--body-font);
@@ -118,7 +117,7 @@ body {
 header {
     grid-row: 1 / 2;
     grid-column: 2 / 3;
-    padding: 0.4rem 3rem;
+    padding: 0.4rem 4rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

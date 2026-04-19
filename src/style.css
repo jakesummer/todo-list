@@ -88,11 +88,15 @@ h6 {
     --heading-font: "Lexend", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --body-font: "Nunito", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --primary-color: #00FF94;
+    --primary-color-dark: #027f4b;
     --surface-0-color: #121212;
     --surface-1-color: #18181b;
     --surface-1-hover-color: #5c5c62;
     --surface-2-color: #262626;
     --surface-2-hover-color: #3c3c3c;
+    --surface-3-color: #232323;
+    --surface-4-color: #323232;
+    --surface-4-hover-color: #494949;
     --primary-font-color: #ffffff;
     --secondary-font-color: #80808a;
     --secondary-font-color-light: #b1b1b3;
@@ -142,15 +146,6 @@ header p {
 
 #new-todo-btn {
     padding: 1rem 3rem;
-    -webkit-box-shadow:0px 0px 59px 0px rgba(0,255,149,0.36);
--moz-box-shadow: 0px 0px 59px 0px rgba(0,255,149,0.36);
-box-shadow: 0px 0px 59px 0px rgba(0,255,149,0.36);
-}
-
-#new-todo-btn:hover {
-    -webkit-box-shadow:0px 0px 59px 0px rgba(0,255,149,0.54);
-    -moz-box-shadow: 0px 0px 59px 0px rgba(0,255,149,0.54);
-    box-shadow: 0px 0px 59px 0px rgba(0,255,149,0.54);
 }
 
 #sidebar {
@@ -417,7 +412,8 @@ button {
 }
 
 .primary-btn,
-.secondary-btn {
+.secondary-btn,
+.cancel-btn {
     font-weight: 900;
     border-radius: 0.4rem;
     border: none;
@@ -426,11 +422,32 @@ button {
 .primary-btn {
     background-color: var(--primary-color);
     color: black;
+    -webkit-box-shadow:0px 0px 59px 0px rgba(0,255,149,0.36);
+    -moz-box-shadow: 0px 0px 59px 0px rgba(0,255,149,0.36);
+    box-shadow: 0px 0px 59px 0px rgba(0,255,149,0.36);
+}
+
+.primary-btn:hover {
+    -webkit-box-shadow:0px 0px 59px 0px rgba(0,255,149,0.54);
+    -moz-box-shadow: 0px 0px 59px 0px rgba(0,255,149,0.54);
+    box-shadow: 0px 0px 59px 0px rgba(0,255,149,0.54);
 }
 
 .secondary-btn {
     background-color: var(--surface-2-color);
     color: var(--primary-color);
+}
+
+.cancel-btn {
+    background-color: transparent;
+    color: var(--secondary-font-color);
+}
+
+.cancel-btn:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+    color: var(--secondary-font-color-light);
 }
 
 .secondary-btn:hover {
@@ -441,8 +458,8 @@ dialog {
     outline: none;
     border: none;
     border-radius: 20px;
-    background-color: #232323;
-    color: var(--primary-font-color);
+    background-color: var(--surface-3-color);
+    color: var(--secondary-font-color-light);
     padding: 2rem;
 }
 
@@ -473,4 +490,148 @@ legend::after {
     position: absolute;
     bottom: -10px;
     left: 0;
+}
+
+#new-todo-form fieldset {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr 1.5fr 0.5fr;
+    gap: 1rem;
+}
+
+form label,
+.priority-label {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.label-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+form input:not([type="radio"]),
+textarea,
+select,
+.priority-radio-label {
+    border: none;
+    background-color: var(--surface-4-color);
+    border-radius: 5px;
+    padding: 1rem;
+    color: var(--primary-font-color);
+    font-weight: 650;
+}
+
+form input:not([type="radio"]):hover,
+select:hover,
+.priority-radio-label:hover {
+    background-color: var(--surface-4-hover-color);
+    cursor: pointer;
+}
+
+form input:focus,
+textarea:focus {
+    outline: 1px solid var(--primary-color-dark);
+}
+
+textarea {
+    width: 45rem;
+    height: 8rem;
+    resize: none;
+}
+
+select {
+    appearance: none;
+}
+
+.select-container {
+    position: relative;
+}
+
+.select-container::after {
+    content: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M6 9l6 6 6-6"/%3E%3C/svg%3E');;
+    position: absolute;
+    width: 2rem;
+    top: 40px;
+    right: 10px;
+}
+
+#new-title-input {
+    border-radius: 2px;
+    font-size: 1.3rem;
+    font-weight: 900;
+    background-color: transparent;
+    outline: none;
+    border-bottom: 3px solid var(--secondary-font-color);
+}
+
+#new-title-input:focus {
+    border-bottom-color: var(--primary-color);
+}
+
+#new-title-input::placeholder {
+    font-size: 1rem;
+}
+
+.input-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem
+}
+
+.input-group .label-input-group {
+    width: 50%;
+    height: 100%;
+}
+
+#new-todo-project-dropdown {
+    margin: 0;
+    height: 60%;
+}
+
+.btn-group {
+    place-self: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.priority-input-grid {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex: 1;
+    gap: 1.3rem;
+}
+
+.priority-input-label-group {
+    display: flex;
+    width: 100%;
+}
+
+.priority-input-label-group input {
+    appearance: none;
+}
+
+.priority-input-label-group label {
+    border-radius: 3px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+input[type="radio"]:checked + label {
+    border: 3px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+#create-todo-btn,
+#cancel-todo-btn {
+    padding: 0.5rem 2rem;
 }

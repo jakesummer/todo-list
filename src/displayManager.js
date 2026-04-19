@@ -218,7 +218,7 @@ export default (function () {
 
     const openNewProjectModal = (isEditMode = false, editedProject = null) => {
         if (isEditMode) {
-            _deleteProjectBtn.style.display = "initial";
+            _deleteProjectBtn.style.display = "flex";
             _projectNameInput.value = editedProject.projectName;
             _createProjectBtn.textContent = "Save Changes";
         } else {

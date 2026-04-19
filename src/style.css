@@ -417,6 +417,7 @@ button {
     font-weight: 900;
     border-radius: 0.4rem;
     border: none;
+    padding: 0.5rem 2rem;
 }
 
 .primary-btn {
@@ -596,6 +597,7 @@ select {
     place-self: center;
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
     width: 100%;
 }
 
@@ -634,4 +636,29 @@ input[type="radio"]:checked + label {
 #create-todo-btn,
 #cancel-todo-btn {
     padding: 0.5rem 2rem;
+}
+
+#new-project-form .label-input-group {
+    margin-bottom: 1.5rem;
+}
+
+#delete-project-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    border-radius: 5px;
+    padding: 0.5rem;
+    background-color: transparent;
+    border: 2px solid var(--priority-high-primary-color);
+    color: var(--priority-high-primary-color);
+    stroke: var(--priority-high-primary-color);
+    font-weight: 700;
+}
+
+#delete-project-btn:hover {
+    background-color: var(--priority-high-primary-color);
+    color: var(--primary-font-color);
+    stroke: var(--primary-font-color);
+    fill: var(--priority-high-primary-color);
 }

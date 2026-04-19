@@ -5,15 +5,16 @@ export default class Todo {
     dueDate;
     priority;
     projectID;
-    isCompleted = false;
+    isCompleted;
 
-    constructor(todoTitle, description, dueDate, priority, projectID, id = null) {
+    constructor(todoTitle, description, dueDate, priority, projectID, id = null, isCompleted = false) {
         this.#id = id || crypto.randomUUID();
         this.todoTitle = todoTitle;
         this.description = description;
         this.dueDate = new Date(dueDate);
         this.priority = priority;
         this.projectID = projectID;
+        this.isCompleted = isCompleted;
     }
 
     get id() {

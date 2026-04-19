@@ -84,8 +84,8 @@ function initApp() {
                 displayManager.openNewTodoModal(appManager.projects, todo.projectID, true, todo);
             } else {
                 const isChecked = btn.checked;
-                appManager.getTodo(todoID).isCompleted = isChecked;
-                
+                appManager.toggleTodoCompletedStatus(todoID, isChecked);
+
                 if (isChecked) todoCard.classList.add("checked-todo");
                 else todoCard.classList.remove("checked-todo");
 

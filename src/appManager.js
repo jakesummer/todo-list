@@ -25,7 +25,7 @@ export default class AppManager {
         if (data["todos"]) {
             for (const arr of data["todos"]) {
                 const obj = arr[1];
-                const t = this.createNewTodo(obj.todoTitle, obj.description, obj.dueDate, obj.priority, obj.projectID, obj.id, true);
+                const t = this.createNewTodo(obj.todoTitle, obj.description, obj.dueDate, obj.priority, obj.projectID, obj.id, obj.isCompleted, true);
             }
         }
     }
@@ -47,8 +47,8 @@ export default class AppManager {
         return newProject.id;
     }
 
-    createNewTodo(todoTitle, description, dueDate, priority, projectID, id = null, isLoading = false) {
-        const newTodo = new Todo(todoTitle, description, dueDate, priority, projectID, id);
+    createNewTodo(todoTitle, description, dueDate, priority, projectID, id = null, isCompleted = false, isLoading = false) {
+        const newTodo = new Todo(todoTitle, description, dueDate, priority, projectID, id, isCompleted);
         const project = this.getProject(projectID);
         project.todoIDs.push(newTodo.id);
         this.#todos.set(newTodo.id, newTodo);
@@ -67,6 +67,10 @@ export default class AppManager {
 
     getTodo(todoID) {
         return this.#todos.get(todoID);
+    }
+
+    toggleTodoCompletedStatus(todoID, status) {
+        this.editTodo(todoID, { isCompleted:  status});
     }
 
     editTodo(todoID, updates) {

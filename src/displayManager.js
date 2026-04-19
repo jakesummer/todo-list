@@ -158,7 +158,8 @@ export default (function () {
     const _viewTodoDetails = (todo, projectName) => {
         _detailsTitleText.textContent = todo.todoTitle;
         _detailsPriorityText.textContent = todo.priority;
-        _detailsPriorityText.className = `priority-${todo.priority}`;
+        _detailsPriorityText.className = `priority-${todo.priority} todo-priority`;
+        _detailsTitleText.appendChild(_detailsPriorityText)
         _detailsProjectText.textContent = projectName;
         _detailsDueDateText.textContent = _formatDate(todo.dueDate);
         _detailsDescriptionText.textContent = todo.description;

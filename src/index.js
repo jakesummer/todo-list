@@ -39,7 +39,7 @@ function initApp() {
     // Event Listeners
     newTodoBtn.addEventListener("click", () => {
         newTodoForm.reset();
-        displayManager.openNewTodoModal(appManager.projects, DEFAULT_PROJECT_ID);
+        displayManager.openNewTodoModal(appManager.projects, selectedProjectID);
     });
     cancelTodoBtn.addEventListener("click", () => displayManager.closeNewTodoModal());
 
@@ -75,10 +75,12 @@ function initApp() {
         if (btn) {
             const todoCard = btn.closest(".todo-card");
             const todoID = todoCard.dataset.todoId;
-
+            const todoObj = appManager.getTodo(todoID);
+            
             if (btn.classList.contains("delete-todo-btn")) {
+                const todoProjectID = todoObj.projectID;
                 appManager.removeTodo(todoID);
-                displayManager.displayTodos(appManager.projects.get(DEFAULT_PROJECT_ID), appManager.todos);
+                displayManager.displayTodos(appManager.projects.get(todoProjectID), appManager.todos);
             } else if(btn.classList.contains("edit-todo-btn")) {
                 const todo = appManager.getTodo(todoID);
                 displayManager.openNewTodoModal(appManager.projects, todo.projectID, true, todo);
